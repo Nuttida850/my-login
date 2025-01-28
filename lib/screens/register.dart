@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_register_login/config/config.dart';
 import 'package:flutter_register_login/models/profile.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   // ignore: unused_field
   String _password = '';
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -215,15 +215,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   style: kTextSecondStyle.copyWith(),
                                 ),
                               ),
-                              onTap: () {
+                              onTap: () async {
                                 if (_formKey.currentState!.validate()) {
                                   _formKey.currentState!.save();
                                   var profile = Profile(
-                                      email: _email, password: _password);
-                                  // ignore: avoid_print
-                                  print(
-                                      "email: ${profile.email} password = ${profile.password}");
-                                  _formKey.currentState!.reset();
+                                    email: _email,
+                                    password: _password,
+                                  );
+                                  try {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                      email: profile.email,
+                                      password: profile.password,
+                                    );
+                                    Fluttertoast.showToast(
+                                      msg: "สร้างบัญชีผู้ใช้เรียบร้อยแล้ว",
+                                      gravity: ToastGravity.CENTER,
+                                    );
+                                    _formKey.currentState!.reset();
+                                  } on FirebaseAuthException catch (e) {
+                                    String message;
+                                    if (e.code == "email-already-in-use") {
+                                      message =
+                                          "มีอีเมลนี้ในระบบแล้ว โปรดใช้อีเมลอื่นแทน";
+                                    } else {
+                                      message = e.message!;
+                                    }
+                                    Fluttertoast.showToast(
+                                      msg: message,
+                                      gravity: ToastGravity.TOP,
+                                    );
+                                  }
                                 }
                               },
                             ),

@@ -17,8 +17,8 @@ final TextStyle kTextSecondStyle = GoogleFonts.itim().copyWith(
 );
 
 //Color
-final Color kPrimaryColor = Color(0xFF4b6cb7);
-final Color kSecondColor = Color(0xFF182848);
+final Color kPrimaryColor = Color(0xFFec008c);
+final Color kSecondColor = Color(0xFFfc6767);
 
 //Image
 final String logo = "assets/images/logo.png";
