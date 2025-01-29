@@ -22,3 +22,4 @@ final Color kSecondColor = Color(0xFFfc6767);
 
 //Image
 final String logo = "assets/images/logo.png";
+final String welcomeImg = "assets/images/welcome.png";
