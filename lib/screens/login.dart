@@ -211,7 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .then((onValue) {
                                 formKey.currentState!.reset();
                                 if (context.mounted) {
-                                  Navigator.pushNamed(context, "/welcome");
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, "/welcome", (route) => false);
                                 }
                               });
                             } on FirebaseAuthException catch (e) {

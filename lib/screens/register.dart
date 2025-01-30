@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_loginSystem/config/config.dart';
 import 'package:flutter_loginSystem/models/profile.dart';
-import 'package:flutter_loginSystem/screens/home.dart';
 import 'package:flutter_loginSystem/widgets/custom_scaffold.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -184,12 +183,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           width: size.width,
                           height: size.height * 0.08,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: kPrimaryColor,
-                             ),
+                            borderRadius: BorderRadius.circular(100),
+                            color: kPrimaryColor,
+                          ),
                           child: Text(
                             "Register",
-                            style: kTextSecondStyle.copyWith(),
+                            style: kTextSecondStyle,
                           ),
                         ),
                         onTap: () async {
@@ -216,12 +215,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                     backgroundColor: kPrimaryColor,
                                   ));
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, "/", (route) => false);
                                 }
-                                
                                 formKey.currentState!.reset();
-                                if (context.mounted) {
-                                  Navigator.pushNamed(context, "/");
-                                }
                               });
                             } on FirebaseAuthException catch (e) {
                               String message;
